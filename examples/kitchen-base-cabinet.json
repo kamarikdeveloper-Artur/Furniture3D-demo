@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "1.0",
+  "id": "kitchen-base-600",
+  "name": "kitchen_base_cabinet",
+  "displayNames": { "en": "Kitchen base cabinet", "uk": "Нижня кухонна шафа" },
+  "templateVersion": "1.2.0",
+  "nominalDimensions": { "width": 600, "height": 720, "depth": 550 },
+  "parameters": [
+    { "key": "width", "type": "number", "unit": "mm", "defaultValue": 600, "min": 400, "max": 1000, "step": 10, "customerEditable": true, "label": { "en": "Width" } },
+    { "key": "height", "type": "number", "unit": "mm", "defaultValue": 720, "min": 500, "max": 1600, "step": 10, "customerEditable": true },
+    { "key": "depth", "type": "number", "unit": "mm", "defaultValue": 550, "min": 400, "max": 650, "step": 10, "customerEditable": true },
+    { "key": "thickness", "type": "number", "unit": "mm", "defaultValue": 18, "min": 18, "max": 18, "customerEditable": false },
+    { "key": "minClearOpening", "type": "number", "unit": "mm", "defaultValue": 250, "min": 1, "customerEditable": false },
+    { "key": "shelfCount", "type": "number", "unit": "count", "defaultValue": 1, "min": 0, "max": 8, "step": 1, "customerEditable": true, "availableWhen": "shelvesEnabled", "visibility": { "visible": true, "condition": "shelvesEnabled" } },
+    { "key": "hasShelves", "type": "boolean", "defaultValue": true, "customerEditable": true },
+    { "key": "finish", "type": "select", "defaultValue": "white", "options": [ { "value": "white", "label": { "en": "White" } }, { "value": "oak", "label": { "en": "Oak" } } ], "customerEditable": true },
+    { "key": "innerWidth", "type": "computed", "resultType": "number", "expression": "width - 2 * thickness", "customerEditable": false }
+  ],
+  "conditions": {
+    "shelvesEnabled": "hasShelves"
+  },
+  "numericConstraints": {
+    "validShelfClearance": { "kind": "at-least", "actualExpression": "height - 2 * thickness", "minimumExpression": "shelfCount * thickness + (shelfCount + 1) * minClearOpening" }
+  },
+  "panels": [
+    {
+      "id": "side-left", "name": "Left side", "displayNames": { "uk": "Ліва боковина" },
+      "geometry": { "kind": "rectangle", "mode": "parametric", "dimensions": { "width": 550, "height": 720, "thickness": 18 }, "formulas": { "dimensions": { "width": "depth", "height": "height", "thickness": "thickness" }, "position": { "x": "0", "y": "0", "z": "depth" } } },
+      "transform": { "position": { "x": 0, "y": 0, "z": 550 }, "orientation": { "x": 0, "y": 0.7071067811865476, "z": 0, "w": 0.7071067811865476 } },
+      "material": { "kind": "slot", "slotId": "carcass" }, "materialRole": "body",
+      "source": { "sourceId": "demo-panel-001", "originalName": "Left side" }
+    },
+    {
+      "id": "side-right", "name": "Right side",
+      "geometry": { "kind": "rectangle", "mode": "parametric", "dimensions": { "width": 550, "height": 720, "thickness": 18 }, "formulas": { "dimensions": { "width": "depth", "height": "height", "thickness": "thickness" }, "position": { "x": "width - thickness", "y": "0", "z": "depth" } } },
+      "transform": { "position": { "x": 582, "y": 0, "z": 550 }, "orientation": { "x": 0, "y": 0.7071067811865476, "z": 0, "w": 0.7071067811865476 } },
+      "material": { "kind": "slot", "slotId": "carcass" }, "materialRole": "body",
+      "source": { "sourceId": "demo-panel-002", "originalName": "Right side" }
+    },
+    {
+      "id": "bottom", "name": "Bottom",
+      "geometry": { "kind": "rectangle", "mode": "parametric", "dimensions": { "width": 564, "height": 550, "thickness": 18 }, "formulas": { "dimensions": { "width": "innerWidth", "height": "depth", "thickness": "thickness" }, "position": { "x": "thickness", "y": "thickness", "z": "0" } } },
+      "transform": { "position": { "x": 18, "y": 18, "z": 0 }, "orientation": { "x": 0.7071067811865476, "y": 0, "z": 0, "w": 0.7071067811865476 } },
+      "material": { "kind": "slot", "slotId": "carcass" }, "materialRole": "body",
+      "source": { "sourceId": "demo-panel-003", "originalName": "Bottom" }
+    },
+    {
+      "id": "shelf", "name": "Shelf prototype",
+      "geometry": { "kind": "rectangle", "mode": "parametric", "dimensions": { "width": 564, "height": 510, "thickness": 18 }, "formulas": { "dimensions": { "width": "innerWidth", "height": "depth - 40", "thickness": "thickness" }, "position": { "x": "thickness", "y": "height / 2 + thickness / 2", "z": "0" } } },
+      "transform": { "position": { "x": 18, "y": 369, "z": 0 }, "orientation": { "x": 0.7071067811865476, "y": 0, "z": 0, "w": 0.7071067811865476 } },
+      "material": { "kind": "slot", "slotId": "carcass" }, "materialRole": "shelf", "enabledWhen": "shelvesEnabled",
+      "source": { "sourceId": "demo-panel-004", "originalName": "Shelf" }
+    }
+  ],
+  "groups": [
+    { "id": "carcass", "name": "Carcass", "transform": { "position": { "x": 0, "y": 0, "z": 0 }, "orientation": { "x": 0, "y": 0, "z": 0, "w": 1 } }, "children": [ { "kind": "panel", "id": "side-left" }, { "kind": "panel", "id": "side-right" }, { "kind": "group", "id": "interior" } ] },
+    { "id": "interior", "name": "Interior", "transform": { "position": { "x": 0, "y": 0, "z": 0 }, "orientation": { "x": 0, "y": 0, "z": 0, "w": 1 } }, "children": [ { "kind": "panel", "id": "bottom" }, { "kind": "panel", "id": "shelf" } ] }
+  ],
+  "rootComponents": [ { "kind": "group", "id": "carcass" } ],
+  "repeats": [
+    {
+      "id": "shelves", "source": { "kind": "panel", "id": "shelf" }, "countParameter": "shelfCount", "minimumCount": 0, "maximumCount": 8,
+      "dynamicConstraint": { "maximumExpression": "floor((height - 2 * thickness - minClearOpening) / (minClearOpening + thickness))" },
+      "placement": { "mode": "even", "axis": "y", "start": "thickness", "end": "height - thickness" },
+      "spacing": { "minimumClearOpeningExpression": "minClearOpening", "thicknessExpression": "thickness" },
+      "adjustment": {
+        "onMaximumDecrease": "reduce-to-maximum", "onMaximumIncrease": "keep-current", "restoreRemovedComponents": false,
+        "autoResize": { "enabledForModule": true, "customerOptInRequired": true, "dimension": "height", "minimum": 500, "maximum": 1600, "requiredDimensionExpression": "2 * thickness + shelfCount * thickness + (shelfCount + 1) * minClearOpening", "constraintReferences": [ "validShelfClearance" ], "onLimitExceeded": "reject" }
+      }
+    }
+  ],
+  "materials": [ { "id": "board-white-18", "displayName": "White board", "thickness": 18, "role": "body" } ],
+  "materialSlots": { "carcass": "board-white-18" },
+  "source": {
+    "software": "BAZIS-Mebelshchik", "softwareVersion": "10", "modelId": "demo-bazis-base-600",
+    "coordinateSystem": { "units": "unknown", "handedness": "unknown", "axes": { "x": "unknown", "y": "unknown", "z": "unknown" }, "origin": "unknown; adapter must identify source convention" },
+    "originalNominalDimensions": { "width": 600, "height": 720, "depth": 550 },
+    "notes": "Synthetic development fixture, not an actual BAZIS export. Runtime replaces the owned shelf source with repeated instances; bottom top is Y=thickness, upper reserved boundary is Y=height-thickness with no physical top panel. Clearance uses typed numeric guards; conditions support direct boolean parameter names."
+  }
+}
