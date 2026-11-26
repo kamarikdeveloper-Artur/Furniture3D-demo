@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1.0",
+  "categories": [
+    { "id": "base-cabinets", "order": 10, "title": { "uk": "Нижні шафи", "en": "Base cabinets" }, "description": { "uk": "Готові модулі нижнього ряду кухні.", "en": "Ready-made modules for the kitchen base row." } }
+  ],
+  "entries": [
+    {
+      "catalogId": "kitchen-base",
+      "template": { "id": "kitchen-base-600", "version": "1.2.0" },
+      "categoryId": "base-cabinets",
+      "order": 10,
+      "status": "published",
+      "title": { "uk": "Нижня кухонна шафа", "en": "Kitchen base cabinet" },
+      "description": { "uk": "Параметрична шафа з регульованими полицями. Початкові розміри: 600 × 720 × 550 мм.", "en": "Parametric cabinet with adjustable shelves. Initial dimensions: 600 × 720 × 550 mm." },
+      "thumbnail": "catalog.kitchenBase"
+    }
+  ],
+  "templates": [
+    { "reference": { "id": "kitchen-base-600", "version": "1.2.0" }, "path": "examples/kitchen-base-cabinet.json", "format": "parametric-cabinet-v1" }
+  ]
+}
