@@ -4,6 +4,7 @@
   "name": "kitchen_base_cabinet",
   "displayNames": { "en": "Kitchen base cabinet", "uk": "Нижня кухонна шафа" },
   "templateVersion": "1.2.0",
+  "placementPolicy": { "kind": "floor", "axes": { "x": true, "y": false, "z": true }, "vertical": "floor" },
   "nominalDimensions": { "width": 600, "height": 720, "depth": 550 },
   "parameters": [
     { "key": "width", "type": "number", "unit": "mm", "defaultValue": 600, "min": 400, "max": 1000, "step": 10, "customerEditable": true, "label": { "en": "Width" } },
